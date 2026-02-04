@@ -2,11 +2,23 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
 export default function Admin() {
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [password, setPassword] = useState('');
     const [uploading, setUploading] = useState(false);
     const [caption, setCaption] = useState('');
     const [message, setMessage] = useState('');
 
+    const checkPassword = (e) => {
+        e.preventDefault();
+        if (password === 'ANDRESBARRIOS') {
+            setIsAuthenticated(true);
+        } else {
+            setMessage('Incorrect password');
+        }
+    };
+
     const handleUpload = async (event) => {
+        // ... existing upload logic ...
         try {
             setUploading(true);
             const file = event.target.files[0];
@@ -16,17 +28,12 @@ export default function Admin() {
             const fileName = `${Math.random()}.${fileExt}`;
             const filePath = `${fileName}`;
 
-            // 1. Upload to Storage
             const { error: uploadError } = await supabase.storage
                 .from('images')
                 .upload(filePath, file);
 
-            if (uploadError) {
-                throw uploadError;
-            }
+            if (uploadError) throw uploadError;
 
-            // 2. Insert into Database
-            // Get public URL? Actually we just need the path usually, but public URL is easier for frontend
             const { data: { publicUrl } } = supabase.storage
                 .from('images')
                 .getPublicUrl(filePath);
@@ -36,16 +43,8 @@ export default function Admin() {
                 .insert([{
                     storage_path: filePath,
                     caption: caption,
-                    url: publicUrl // I should add a url column or just use path, but schema has url? 
-                    // Wait, my schema had (storage_path, caption). I should check schema.
-                    // implementation_plan said: Create Table `gallery_images` (url, caption, created_at)
-                    // But my SQL was: storage_path text not null.
-                    // I will check what I actually ran.
+                    // url column removed as we rely on storage_path
                 }]);
-
-            // Wait, let's double check the schema I applied in step 52 via storage_setup or create_gallery_table_only
-            // Step 52 query: storage_path text not null.
-            // So I should insert storage_path. Ideally logic calculates URL.
 
             if (dbError) throw dbError;
 
@@ -58,9 +57,27 @@ export default function Admin() {
         }
     };
 
+    if (!isAuthenticated) {
+        return (
+            <div className="admin-container" style={{ textAlign: 'center', marginTop: '10vh' }}>
+                <h1>Admin Access</h1>
+                <form onSubmit={checkPassword} className="form-group" style={{ maxWidth: '300px', margin: '0 auto' }}>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Enter Password"
+                    />
+                    <button type="submit">Unlock</button>
+                </form>
+                {message && <p style={{ color: 'red' }}>{message}</p>}
+            </div>
+        );
+    }
+
     return (
         <div className="admin-container">
-            <h1>Diana's 50th - Admin</h1>
+            <h1>Diana's 50th - Upload Memories</h1>
 
             <div className="form-group">
                 <label>Caption</label>
