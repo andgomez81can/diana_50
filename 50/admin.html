@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Diana's 50th Birthday</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="form.html">RSVP</a></li>
+            <li><a href="admin.html">Admin</a></li>
+        </ul>
+    </nav>
+
+    <div class="upload-container">
+        <div class="form-card">
+            <h2>Upload Images</h2>
+            <p style="color: var(--text-muted); margin-bottom: var(--spacing-md);">
+                Upload multiple images for Diana's celebration gallery
+            </p>
+
+            <div class="upload-zone" id="upload-zone">
+                <div class="upload-icon">📸</div>
+                <h3>Drag & Drop Images Here</h3>
+                <p style="color: var(--text-muted); margin: var(--spacing-sm) 0;">or</p>
+                <button type="button" class="btn" onclick="document.getElementById('file-input').click()">
+                    Browse Files
+                </button>
+                <input type="file" id="file-input" accept="image/*" multiple>
+                <p style="color: var(--text-muted); margin-top: var(--spacing-sm); font-size: 0.9rem;">
+                    Supports: JPG, PNG, GIF, WEBP
+                </p>
+            </div>
+
+            <div id="preview-container" style="display: none;">
+                <h3 style="margin-top: var(--spacing-lg); margin-bottom: var(--spacing-sm);">
+                    Selected Images (<span id="image-count">0</span>)
+                </h3>
+                <div class="preview-grid" id="preview-grid"></div>
+                <button type="button" class="btn" id="upload-btn" style="margin-top: var(--spacing-md);">
+                    Upload All Images
+                </button>
+            </div>
+
+            <div id="upload-feedback" style="margin-top: var(--spacing-md); display: none;"></div>
+        </div>
+    </div>
+
+    <script type="module" src="js/admin.js"></script>
+</body>
+
+</html>
