@@ -1,5 +1,19 @@
+import { supabase, STORAGE_BUCKET } from '../lib/supabase.js';
+
+// Admin password (change this to your desired password)
+const ADMIN_PASSWORD = 'diana50';
+
 class AdminUploader {
     constructor() {
+        // Password elements
+        this.passwordModal = document.getElementById('password-modal');
+        this.passwordInput = document.getElementById('password-input');
+        this.loginBtn = document.getElementById('login-btn');
+        this.logoutBtn = document.getElementById('logout-btn');
+        this.errorMessage = document.getElementById('error-message');
+
+        // Upload elements
+        this.uploadContainer = document.getElementById('upload-container');
         this.uploadZone = document.getElementById('upload-zone');
         this.fileInput = document.getElementById('file-input');
         this.previewContainer = document.getElementById('preview-container');
@@ -9,11 +23,30 @@ class AdminUploader {
         this.feedback = document.getElementById('upload-feedback');
 
         this.selectedFiles = [];
+        this.isAuthenticated = false;
 
+        this.checkAuth();
         this.setupEventListeners();
     }
 
+    checkAuth() {
+        // Check if user is already authenticated (session storage)
+        const isAuth = sessionStorage.getItem('admin-auth') === 'true';
+        if (isAuth) {
+            this.showUploadInterface();
+        }
+    }
+
     setupEventListeners() {
+        // Password authentication
+        this.loginBtn.addEventListener('click', () => this.handleLogin());
+        this.passwordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.handleLogin();
+        });
+
+        // Logout
+        this.logoutBtn.addEventListener('click', () => this.handleLogout());
+
         // File input change
         this.fileInput.addEventListener('change', (e) => this.handleFileSelect(e));
 
@@ -35,6 +68,41 @@ class AdminUploader {
 
         // Upload button
         this.uploadBtn.addEventListener('click', () => this.uploadImages());
+    }
+
+    handleLogin() {
+        const password = this.passwordInput.value;
+
+        if (password === ADMIN_PASSWORD) {
+            sessionStorage.setItem('admin-auth', 'true');
+            this.showUploadInterface();
+        } else {
+            this.errorMessage.classList.add('show');
+            this.passwordInput.value = '';
+            this.passwordInput.focus();
+
+            // Hide error after 3 seconds
+            setTimeout(() => {
+                this.errorMessage.classList.remove('show');
+            }, 3000);
+        }
+    }
+
+    handleLogout() {
+        sessionStorage.removeItem('admin-auth');
+        this.passwordModal.classList.remove('hidden');
+        this.uploadContainer.style.display = 'none';
+        this.logoutBtn.classList.add('hidden');
+        this.passwordInput.value = '';
+        this.selectedFiles = [];
+        this.updatePreview();
+    }
+
+    showUploadInterface() {
+        this.isAuthenticated = true;
+        this.passwordModal.classList.add('hidden');
+        this.uploadContainer.style.display = 'block';
+        this.logoutBtn.classList.remove('hidden');
     }
 
     handleFileSelect(e) {
@@ -106,32 +174,64 @@ class AdminUploader {
         this.uploadBtn.disabled = true;
 
         try {
-            // For now, store in localStorage (can be replaced with Supabase storage)
             const uploadedImages = [];
+            let successCount = 0;
+            let errorCount = 0;
 
             for (const file of this.selectedFiles) {
-                const reader = new FileReader();
-                const imageData = await new Promise((resolve) => {
-                    reader.onload = (e) => resolve({
+                try {
+                    // Generate unique filename
+                    const timestamp = Date.now();
+                    const randomStr = Math.random().toString(36).substring(7);
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${timestamp}-${randomStr}.${fileExt}`;
+
+                    // Upload to Supabase Storage
+                    const { data, error } = await supabase.storage
+                        .from(STORAGE_BUCKET)
+                        .upload(fileName, file, {
+                            cacheControl: '3600',
+                            upsert: false
+                        });
+
+                    if (error) {
+                        console.error('Upload error:', error);
+                        errorCount++;
+                        continue;
+                    }
+
+                    // Get public URL
+                    const { data: urlData } = supabase.storage
+                        .from(STORAGE_BUCKET)
+                        .getPublicUrl(fileName);
+
+                    uploadedImages.push({
                         name: file.name,
-                        data: e.target.result,
-                        size: file.size,
-                        type: file.type,
+                        storagePath: fileName,
+                        publicUrl: urlData.publicUrl,
                         uploadedAt: new Date().toISOString()
                     });
-                    reader.readAsDataURL(file);
-                });
 
-                uploadedImages.push(imageData);
+                    successCount++;
+                } catch (err) {
+                    console.error('Error uploading file:', err);
+                    errorCount++;
+                }
             }
 
-            // Save to localStorage
-            const existingImages = JSON.parse(localStorage.getItem('diana-images') || '[]');
+            // Store metadata in localStorage (optional - could use Supabase table instead)
+            const existingImages = JSON.parse(localStorage.getItem('diana-images-metadata') || '[]');
             const allImages = [...existingImages, ...uploadedImages];
-            localStorage.setItem('diana-images', JSON.stringify(allImages));
+            localStorage.setItem('diana-images-metadata', JSON.stringify(allImages));
 
-            // Show success
-            this.showFeedback('success', `Successfully uploaded ${this.selectedFiles.length} image(s)!`);
+            // Show success/error message
+            if (successCount > 0 && errorCount === 0) {
+                this.showFeedback('success', `Successfully uploaded ${successCount} image(s) to Supabase!`);
+            } else if (successCount > 0 && errorCount > 0) {
+                this.showFeedback('success', `Uploaded ${successCount} image(s). ${errorCount} failed.`);
+            } else {
+                this.showFeedback('error', 'Failed to upload images. Please try again.');
+            }
 
             // Reset
             this.selectedFiles = [];
