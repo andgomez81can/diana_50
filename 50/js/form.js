@@ -34,7 +34,20 @@ class FormHandler {
         submitBtn.disabled = true;
 
         try {
-            // Store in localStorage for now (can be replaced with Supabase)
+            // Send to N8n webhook
+            const response = await fetch('https://n8n.srv1244725.hstgr.cloud/webhook-test/diana_50', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to submit RSVP');
+            }
+
+            // Also store in localStorage as backup
             this.saveToLocalStorage(formData);
 
             // Show success message
