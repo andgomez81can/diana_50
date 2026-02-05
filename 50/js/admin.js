@@ -1,7 +1,7 @@
 import { supabase, STORAGE_BUCKET } from '../lib/supabase.js';
 
 // Admin password (change this to your desired password)
-const ADMIN_PASSWORD = 'diana50';
+const ADMIN_PASSWORD = '80157714Gomez';
 
 class AdminUploader {
     constructor() {
