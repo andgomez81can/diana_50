@@ -1,3 +1,5 @@
+import { supabase } from '../lib/supabase.js';
+
 class FormHandler {
     constructor() {
         this.form = document.getElementById('rsvp-form');
@@ -16,7 +18,7 @@ class FormHandler {
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
             phone: document.getElementById('phone').value,
-            guests: document.getElementById('guests').value,
+            guests: parseInt(document.getElementById('guests').value),
             dietary: document.getElementById('dietary').value,
             message: document.getElementById('message').value,
             timestamp: new Date().toISOString()
@@ -34,18 +36,12 @@ class FormHandler {
         submitBtn.disabled = true;
 
         try {
-            // Send to N8n webhook
-            const response = await fetch('https://n8n.srv1244725.hstgr.cloud/webhook-test/diana_50', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            });
+            // Save to Supabase
+            const { error } = await supabase
+                .from('rsvps')
+                .insert([formData]);
 
-            if (!response.ok) {
-                throw new Error('Failed to submit RSVP');
-            }
+            if (error) throw error;
 
             // Also store in localStorage as backup
             this.saveToLocalStorage(formData);

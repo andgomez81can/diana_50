@@ -1,23 +1,38 @@
+import { supabase } from '../lib/supabase.js';
+
 class MessagesDisplay {
     constructor() {
         this.container = document.getElementById('messages-container');
         this.loadMessages();
 
-        // Listen for storage changes (when new messages are submitted)
-        window.addEventListener('storage', () => this.loadMessages());
+        // No longer need storage listener for local changes
+        // Instead, we could implement a refresh button or use Supabase Realtime
     }
 
-    loadMessages() {
-        // Get RSVP data from localStorage
-        const rsvps = JSON.parse(localStorage.getItem('diana-rsvps') || '[]');
+    async loadMessages() {
+        if (!this.container) return;
 
-        // Filter to only show entries with messages
-        const messagesWithText = rsvps.filter(rsvp => rsvp.message && rsvp.message.trim().length > 0);
+        try {
+            // Get RSVP data from Supabase
+            const { data: rsvps, error } = await supabase
+                .from('rsvps')
+                .select('*')
+                .not('message', 'is', null)
+                .neq('message', '')
+                .order('timestamp', { ascending: false });
 
-        // Sort by timestamp (newest first)
-        messagesWithText.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            if (error) throw error;
 
-        this.displayMessages(messagesWithText);
+            if (rsvps.length === 0) {
+                this.container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">No messages yet. Be the first to leave one!</p>';
+                return;
+            }
+
+            this.displayMessages(rsvps);
+        } catch (error) {
+            console.error('Error loading messages:', error.message);
+            this.container.innerHTML = '<p style="text-align: center; color: var(--error-color);">Failed to load messages. Please try again later.</p>';
+        }
     }
 
     displayMessages(messages) {
