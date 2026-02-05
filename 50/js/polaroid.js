@@ -6,6 +6,7 @@ class PolaroidGallery {
         if (!this.container) return;
 
         this.images = [];
+        this.lightbox = this.createLightbox();
         this.init();
     }
 
@@ -14,6 +15,57 @@ class PolaroidGallery {
         if (this.images.length > 0) {
             this.renderPolaroids();
         }
+        this.setupLightboxEvents();
+    }
+
+    createLightbox() {
+        const overlay = document.createElement('div');
+        overlay.className = 'lightbox-overlay';
+        overlay.id = 'lightbox-overlay';
+
+        overlay.innerHTML = `
+            <div class="lightbox-content">
+                <span class="lightbox-close">&times;</span>
+                <img id="lightbox-img" src="" alt="Full Screen Memory">
+                <div id="lightbox-caption" class="lightbox-caption">Birthday Memory</div>
+            </div>
+        `;
+
+        document.body.appendChild(overlay);
+        return overlay;
+    }
+
+    setupLightboxEvents() {
+        const closeBtn = this.lightbox.querySelector('.lightbox-close');
+
+        // Close on X click
+        closeBtn.addEventListener('click', () => this.closeLightbox());
+
+        // Close on background click
+        this.lightbox.addEventListener('click', (e) => {
+            if (e.target === this.lightbox) this.closeLightbox();
+        });
+
+        // Close on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') this.closeLightbox();
+        });
+    }
+
+    showLightbox(imgData) {
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxCaption = document.getElementById('lightbox-caption');
+
+        lightboxImg.src = imgData.url;
+        lightboxCaption.textContent = "Birthday Memory";
+
+        this.lightbox.classList.add('show');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+    }
+
+    closeLightbox() {
+        this.lightbox.classList.remove('show');
+        document.body.style.overflow = ''; // Restore scrolling
     }
 
     async fetchImages() {
@@ -119,6 +171,9 @@ class PolaroidGallery {
 
         div.appendChild(img);
         div.appendChild(caption);
+
+        // Add click event for full screen
+        div.addEventListener('click', () => this.showLightbox(imgData));
 
         return div;
     }
