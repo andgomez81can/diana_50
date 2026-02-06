@@ -901,3 +901,44 @@ nav a:hover {
         margin: var(--spacing-md) var(--spacing-sm);
     }
 }
+
+/* Site Footer */
+.site-footer {
+    padding: var(--spacing-xl) var(--spacing-md);
+    background: var(--bg-darker);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.footer-content p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    font-style: italic;
+    line-height: 1.8;
+}
+
+.footer-content strong {
+    color: var(--primary-color);
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    display: block;
+    margin-top: var(--spacing-sm);
+    font-style: normal;
+}
+
+@media (max-width: 768px) {
+    .site-footer {
+        padding: var(--spacing-lg) var(--spacing-sm);
+    }
+
+    .footer-content p {
+        font-size: 1rem;
+    }
+}
