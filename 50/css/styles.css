@@ -323,7 +323,8 @@ nav a:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(10, 14, 39, 0.95);
+    background: rgba(242, 230, 208, 0.95);
+    /* Cream overlay */
     backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
@@ -336,14 +337,15 @@ nav a:hover {
 }
 
 .password-card {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(3, 166, 136, 0.2);
     border-radius: 20px;
     padding: var(--spacing-lg);
     max-width: 400px;
     width: 90%;
     text-align: center;
+    box-shadow: 0 20px 60px rgba(3, 166, 136, 0.1);
 }
 
 .password-card h2 {
