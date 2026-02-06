@@ -915,6 +915,7 @@ nav a:hover {
 .footer-content {
     max-width: 800px;
     margin: 0 auto;
+    text-align: center;
 }
 
 .footer-content p {
@@ -922,15 +923,17 @@ nav a:hover {
     color: var(--text-muted);
     font-style: italic;
     line-height: 1.8;
+    text-align: center;
 }
 
 .footer-content strong {
     color: var(--primary-color);
     font-family: var(--font-heading);
     font-size: 1.2rem;
-    display: block;
+    display: inline-block;
     margin-top: var(--spacing-sm);
     font-style: normal;
+    text-align: center;
 }
 
 @media (max-width: 768px) {
