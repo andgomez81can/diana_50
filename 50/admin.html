@@ -22,59 +22,64 @@
         </ul>
     </nav>
 
-    <!-- Password Protection Modal -->
-    <div class="password-modal" id="password-modal">
-        <div class="password-card">
-            <h2>🔒 Admin Access</h2>
-            <p style="color: var(--text-muted); margin-bottom: var(--spacing-md);">
-                Enter password to continue
-            </p>
-            <input type="password" id="password-input" class="password-input" placeholder="Enter password"
-                autocomplete="off">
-            <p class="error-message" id="error-message">Incorrect password</p>
-            <button type="button" class="btn" id="login-btn">
-                Unlock
-            </button>
+    <div class="hero-container">
+        <canvas id="hero-canvas"></canvas>
+
+        <!-- Password Protection Modal -->
+        <div class="password-modal" style="position: relative; z-index: 10;" id="password-modal">
+            <div class="password-card">
+                <h2>🔒 Admin Access</h2>
+                <p style="color: var(--text-muted); margin-bottom: var(--spacing-md);">
+                    Enter password to continue
+                </p>
+                <input type="password" id="password-input" class="password-input" placeholder="Enter password"
+                    autocomplete="off">
+                <p class="error-message" id="error-message">Incorrect password</p>
+                <button type="button" class="btn" id="login-btn">
+                    Unlock
+                </button>
+            </div>
         </div>
+
+        <div class="upload-container" id="upload-container" style="display: none; position: relative; z-index: 10;">
+            <div class="form-card">
+                <h2>Upload Images</h2>
+                <p style="color: var(--text-muted); margin-bottom: var(--spacing-md);">
+                    Upload multiple images for Diana's celebration gallery
+                </p>
+
+                <div class="upload-zone" id="upload-zone">
+                    <div class="upload-icon">📸</div>
+                    <h3>Drag & Drop Images Here</h3>
+                    <p style="color: var(--text-muted); margin: var(--spacing-sm) 0;">or</p>
+                    <button type="button" class="btn" onclick="document.getElementById('file-input').click()">
+                        Browse Files
+                    </button>
+                    <input type="file" id="file-input" accept="image/*" multiple>
+                    <p style="color: var(--text-muted); margin-top: var(--spacing-sm); font-size: 0.9rem;">
+                        Supports: JPG, PNG, GIF, WEBP
+                    </p>
+                </div>
+
+                <div id="preview-container" style="display: none;">
+                    <h3 style="margin-top: var(--spacing-lg); margin-bottom: var(--spacing-sm);">
+                        Selected Images (<span id="image-count">0</span>)
+                    </h3>
+                    <div class="preview-grid" id="preview-grid"></div>
+                    <button type="button" class="btn" id="upload-btn" style="margin-top: var(--spacing-md);">
+                        Upload All Images
+                    </button>
+                </div>
+
+                <div id="upload-feedback" style="margin-top: var(--spacing-md); display: none;"></div>
+            </div>
+        </div> <!-- Close upload-container -->
     </div>
 
     <!-- Logout Button (hidden initially) -->
-    <button class="logout-btn hidden" id="logout-btn">Logout</button>
+    <button class="logout-btn hidden" id="logout-btn" style="z-index: 20;">Logout</button>
 
-    <div class="upload-container" id="upload-container" style="display: none;">
-        <div class="form-card">
-            <h2>Upload Images</h2>
-            <p style="color: var(--text-muted); margin-bottom: var(--spacing-md);">
-                Upload multiple images for Diana's celebration gallery
-            </p>
-
-            <div class="upload-zone" id="upload-zone">
-                <div class="upload-icon">📸</div>
-                <h3>Drag & Drop Images Here</h3>
-                <p style="color: var(--text-muted); margin: var(--spacing-sm) 0;">or</p>
-                <button type="button" class="btn" onclick="document.getElementById('file-input').click()">
-                    Browse Files
-                </button>
-                <input type="file" id="file-input" accept="image/*" multiple>
-                <p style="color: var(--text-muted); margin-top: var(--spacing-sm); font-size: 0.9rem;">
-                    Supports: JPG, PNG, GIF, WEBP
-                </p>
-            </div>
-
-            <div id="preview-container" style="display: none;">
-                <h3 style="margin-top: var(--spacing-lg); margin-bottom: var(--spacing-sm);">
-                    Selected Images (<span id="image-count">0</span>)
-                </h3>
-                <div class="preview-grid" id="preview-grid"></div>
-                <button type="button" class="btn" id="upload-btn" style="margin-top: var(--spacing-md);">
-                    Upload All Images
-                </button>
-            </div>
-
-            <div id="upload-feedback" style="margin-top: var(--spacing-md); display: none;"></div>
-        </div>
-    </div> <!-- Close upload-container -->
-
+    <script type="module" src="js/hero.js"></script>
     <script type="module" src="js/admin.js"></script>
 </body>
 
