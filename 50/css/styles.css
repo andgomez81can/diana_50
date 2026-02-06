@@ -782,6 +782,43 @@ nav a:hover {
     margin-bottom: var(--spacing-lg);
 }
 
+.slides.hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 1200px;
+    width: 90%;
+    text-align: center;
+    pointer-events: none;
+    /* Default for the container */
+}
+
+.hero-content h1,
+.hero-content .hero-messages {
+    pointer-events: auto;
+    /* Allow interaction with title and messages */
+}
+
+.hero-messages {
+    margin-top: var(--spacing-md);
+    max-height: 50vh;
+    overflow-y: auto;
+    padding: var(--spacing-sm);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.hero-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.hero-messages::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
 .slideshow-container {
     position: relative;
     width: 100%;
