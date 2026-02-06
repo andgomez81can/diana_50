@@ -762,7 +762,7 @@ nav a:hover {
 /* Memories Section & Slideshow */
 .memories-section {
     padding: var(--spacing-xl) var(--spacing-md);
-    background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+    background: transparent;
 }
 
 .section-wrapper {
@@ -905,7 +905,7 @@ nav a:hover {
 /* Site Footer */
 .site-footer {
     padding: var(--spacing-xl) var(--spacing-md);
-    background: var(--bg-darker);
+    background: transparent;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     text-align: center;
     position: relative;
