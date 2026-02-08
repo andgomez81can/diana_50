@@ -1,6 +1,6 @@
 import { supabase } from '../lib/supabase.js';
 
-const WEBHOOK_URL = 'https://n8n.srv1244725.hstgr.cloud/webhook-test/diana_50';
+const WEBHOOK_URL = 'https://n8n.srv1244725.hstgr.cloud/webhook/diana_50';
 
 class FormHandler {
     constructor() {
