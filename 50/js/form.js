@@ -1,5 +1,7 @@
 import { supabase } from '../lib/supabase.js';
 
+const WEBHOOK_URL = 'https://n8n.srv1244725.hstgr.cloud/webhook-test/diana_50';
+
 class FormHandler {
     constructor() {
         this.form = document.getElementById('rsvp-form');
@@ -45,6 +47,20 @@ class FormHandler {
 
             // Also store in localStorage as backup
             this.saveToLocalStorage(formData);
+
+            // Send to Webhook for automations
+            try {
+                await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                console.log('Webhook automation triggered successfully');
+            } catch (webhookError) {
+                console.warn('Webhook notification failed, but Supabase save succeeded:', webhookError);
+            }
 
             // Show success message
             this.showFeedback('success', 'Thank you for your RSVP! We look forward to celebrating with you.');
