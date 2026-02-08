@@ -433,9 +433,44 @@ nav a:hover {
 
 .messages-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: 1fr;
     gap: var(--spacing-md);
     margin-top: var(--spacing-lg);
+    position: relative;
+    height: 300px;
+    /* Fixed height for slideshow */
+    overflow: hidden;
+}
+
+.hero-messages {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    pointer-events: auto;
+}
+
+.hero-messages .message-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hero-messages .message-card.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    z-index: 2;
+}
+
+.hero-messages .message-card.exit {
+    opacity: 0;
+    transform: translateY(-20px);
 }
 
 .message-card {

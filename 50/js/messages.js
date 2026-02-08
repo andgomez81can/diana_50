@@ -36,19 +36,49 @@ class MessagesDisplay {
     }
 
     displayMessages(messages) {
-        // Clear container
         this.container.innerHTML = '';
+        this.messages = messages;
+        this.currentIndex = 0;
 
-        if (messages.length === 0) {
+        if (this.messages.length === 0) {
             this.showEmptyState();
             return;
         }
 
-        // Create message cards
-        messages.forEach((message, index) => {
-            const card = this.createMessageCard(message, index);
+        // Create all cards but keep them hidden
+        this.cards = this.messages.map((msg, idx) => {
+            const card = this.createMessageCard(msg, idx);
             this.container.appendChild(card);
+            return card;
         });
+
+        // Start slideshow
+        this.showNextMessage();
+        this.startSlideshow();
+    }
+
+    showNextMessage() {
+        if (!this.cards || this.cards.length === 0) return;
+
+        // Clean up previous active card
+        const prevCard = this.container.querySelector('.message-card.active');
+        if (prevCard) {
+            prevCard.classList.remove('active');
+            prevCard.classList.add('exit');
+            setTimeout(() => prevCard.classList.remove('exit'), 800);
+        }
+
+        // Show current card
+        const currentCard = this.cards[this.currentIndex];
+        currentCard.classList.add('active');
+
+        // Increment index
+        this.currentIndex = (this.currentIndex + 1) % this.cards.length;
+    }
+
+    startSlideshow() {
+        if (this.slideshowInterval) clearInterval(this.slideshowInterval);
+        this.slideshowInterval = setInterval(() => this.showNextMessage(), 5000);
     }
 
     createMessageCard(message, index) {

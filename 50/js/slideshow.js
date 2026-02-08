@@ -1,4 +1,4 @@
-import { supabase, STORAGE_BUCKET } from './lib/supabase.js';
+import { supabase, STORAGE_BUCKET } from '../lib/supabase.js';
 
 class PhotoSlideshow {
     constructor() {
