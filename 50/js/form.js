@@ -17,12 +17,12 @@ class FormHandler {
         e.preventDefault();
 
         const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            guests: parseInt(document.getElementById('guests').value),
-            dietary: document.getElementById('dietary').value,
-            message: document.getElementById('message').value,
+            name: document.getElementById('name')?.value || '',
+            email: document.getElementById('email')?.value || '',
+            phone: document.getElementById('phone')?.value || '',
+            guests: parseInt(document.getElementById('guests')?.value || '1'),
+            dietary: document.getElementById('dietary')?.value || '',
+            message: document.getElementById('message')?.value || '',
             timestamp: new Date().toISOString()
         };
 

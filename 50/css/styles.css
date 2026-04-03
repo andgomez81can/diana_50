@@ -1001,3 +1001,41 @@ nav a:hover {
         font-size: 1rem;
     }
 }
+/* RSVP Event Details */
+.event-details {
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-sm);
+    background: rgba(3, 166, 136, 0.05);
+    border-radius: 12px;
+    border: 1px dashed rgba(3, 166, 136, 0.2);
+}
+
+.detail-item {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.detail-item:last-child {
+    margin-bottom: 0;
+}
+
+.detail-icon {
+    font-size: 1.2rem;
+    min-width: 24px;
+}
+
+.detail-label {
+    color: var(--primary-color);
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.detail-text {
+    color: var(--text-dark);
+    font-weight: 500;
+}
