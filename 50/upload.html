@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Your Memories - Diana's 50th Birthday</title>
+    <meta name="description" content="Upload your photos and videos from Diana's 50th birthday celebration!">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/upload.css">
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="form.html">RSVP</a></li>
+            <li><a href="upload.html" class="active-nav">Upload</a></li>
+            <li><a href="admin.html">Admin</a></li>
+        </ul>
+    </nav>
+
+    <div class="upload-page-hero">
+        <canvas id="hero-canvas"></canvas>
+
+        <div class="upload-page-content">
+
+            <!-- Header -->
+            <div class="upload-header">
+                <div class="upload-emoji">📸</div>
+                <h1>Share Your Memories</h1>
+                <p>Upload your photos & videos from Diana's celebration.<br>They'll appear in the gallery for everyone to enjoy!</p>
+            </div>
+
+            <!-- Upload Card -->
+            <div class="upload-card" id="upload-card">
+
+                <!-- Name input -->
+                <div class="uploader-name-row">
+                    <input type="text" id="uploader-name" class="uploader-name-input" placeholder="Your name (optional)" maxlength="50">
+                </div>
+
+                <!-- Drop zone -->
+                <div class="public-upload-zone" id="public-upload-zone">
+                    <div class="puz-icons">
+                        <span>🖼️</span>
+                        <span>🎥</span>
+                    </div>
+                    <h2>Tap to add photos or videos</h2>
+                    <p>From your camera roll, files, or take a new photo</p>
+
+                    <div class="puz-buttons">
+                        <button class="puz-btn puz-btn-camera" id="btn-camera" onclick="document.getElementById('input-camera').click()">
+                            📷 Camera
+                        </button>
+                        <button class="puz-btn puz-btn-gallery" id="btn-gallery" onclick="document.getElementById('input-files').click()">
+                            🖼️ Gallery / Files
+                        </button>
+                    </div>
+
+                    <!-- Hidden inputs -->
+                    <input type="file" id="input-camera" accept="image/*,video/*" capture="environment" multiple style="display:none">
+                    <input type="file" id="input-files" accept="image/*,video/*" multiple style="display:none">
+                </div>
+
+                <!-- Preview grid -->
+                <div class="puz-preview" id="puz-preview" style="display:none">
+                    <div class="puz-preview-header">
+                        <span id="puz-file-count">0 files selected</span>
+                        <button class="puz-clear-btn" id="puz-clear-btn">Clear all</button>
+                    </div>
+                    <div class="puz-preview-grid" id="puz-preview-grid"></div>
+                </div>
+
+                <!-- Upload button -->
+                <button class="puz-upload-btn" id="puz-upload-btn" style="display:none">
+                    <span id="puz-upload-label">Upload Memories 💛</span>
+                </button>
+
+                <!-- Progress -->
+                <div class="puz-progress-wrap" id="puz-progress-wrap" style="display:none">
+                    <div class="puz-progress-bar-track">
+                        <div class="puz-progress-bar-fill" id="puz-progress-fill"></div>
+                    </div>
+                    <p class="puz-progress-text" id="puz-progress-text">Uploading…</p>
+                </div>
+
+                <!-- Success state -->
+                <div class="puz-success" id="puz-success" style="display:none">
+                    <div class="puz-success-icon">🎉</div>
+                    <h2>Uploaded!</h2>
+                    <p>Your memories are now part of Diana's gallery.</p>
+                    <div class="puz-success-actions">
+                        <button class="puz-btn-secondary" id="puz-upload-more">Upload More</button>
+                        <a href="index.html" class="puz-btn-primary">View Gallery →</a>
+                    </div>
+                </div>
+
+                <!-- Error -->
+                <div class="puz-error" id="puz-error" style="display:none"></div>
+            </div>
+
+            <!-- Tips -->
+            <div class="upload-tips">
+                <div class="tip-item">
+                    <span>✅</span>
+                    <p>Photos & videos supported</p>
+                </div>
+                <div class="tip-item">
+                    <span>✅</span>
+                    <p>iPhone & Android friendly</p>
+                </div>
+                <div class="tip-item">
+                    <span>✅</span>
+                    <p>Shows in home slideshow</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>I made this with all my love. Your 50th birthday was such a special moment for everyone close to you.
+                <strong>Gabriella, Adrian, Marco, Moncho and Andres</strong>
+            </p>
+        </div>
+    </footer>
+
+    <script type="module" src="js/hero.js"></script>
+    <script type="module" src="js/upload.js"></script>
+</body>
+
+</html>

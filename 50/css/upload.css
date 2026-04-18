@@ -1,0 +1,482 @@
+/* =========================================
+   Upload Page Styles — upload.css
+   Mobile-first, works on iPhone & Android
+   ========================================= */
+
+/* Page layout */
+.upload-page-hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 90px var(--spacing-sm) var(--spacing-xl);
+    overflow-x: hidden;
+}
+
+.upload-page-content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 540px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+/* Header */
+.upload-header {
+    text-align: center;
+    animation: fadeInUp 0.7s ease-out both;
+}
+
+.upload-emoji {
+    font-size: 3.5rem;
+    margin-bottom: var(--spacing-xs);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.08); }
+}
+
+.upload-header h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 7vw, 2.8rem);
+    font-weight: 800;
+    background: var(--gradient-accent);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: var(--spacing-xs);
+}
+
+.upload-header p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+/* Upload Card */
+.upload-card {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(3, 166, 136, 0.15);
+    border-radius: 24px;
+    padding: var(--spacing-md);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    animation: fadeInUp 0.7s ease-out 0.15s both;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+/* Name input row */
+.uploader-name-row {
+    width: 100%;
+}
+
+.uploader-name-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid rgba(3, 166, 136, 0.25);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.7);
+    color: var(--text-dark);
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none;
+}
+
+.uploader-name-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(3, 166, 136, 0.12);
+}
+
+/* Drop Zone */
+.public-upload-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg) var(--spacing-sm);
+    border: 2.5px dashed rgba(3, 166, 136, 0.35);
+    border-radius: 18px;
+    background: rgba(3, 166, 136, 0.03);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-height: 220px;
+}
+
+.public-upload-zone:hover,
+.public-upload-zone.drag-over {
+    border-color: var(--primary-color);
+    background: rgba(3, 166, 136, 0.07);
+}
+
+.puz-icons {
+    display: flex;
+    gap: 16px;
+    font-size: 2.4rem;
+}
+
+.public-upload-zone h2 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.public-upload-zone p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Zone buttons */
+.puz-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: var(--spacing-xs);
+}
+
+.puz-btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 50px;
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.puz-btn-camera {
+    background: var(--gradient-accent);
+    color: white;
+    box-shadow: 0 4px 16px rgba(242, 152, 41, 0.3);
+}
+
+.puz-btn-camera:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(242, 152, 41, 0.4);
+}
+
+.puz-btn-gallery {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: 0 4px 16px rgba(3, 166, 136, 0.3);
+}
+
+.puz-btn-gallery:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(3, 166, 136, 0.4);
+}
+
+/* Preview section */
+.puz-preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-xs);
+}
+
+.puz-preview-header span {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+.puz-clear-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.puz-clear-btn:hover {
+    color: #f44336;
+}
+
+/* Preview grid */
+.puz-preview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+}
+
+.puz-preview-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f0f0f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.puz-preview-item img,
+.puz-preview-item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.puz-remove-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+    background: rgba(244, 67, 54, 0.9);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding-bottom: 2px;
+    backdrop-filter: blur(4px);
+    transition: transform 0.2s;
+}
+
+.puz-remove-btn:hover {
+    transform: scale(1.15);
+}
+
+.puz-media-badge {
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    font-size: 1rem;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.5));
+}
+
+.puz-size-badge {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    font-size: 0.65rem;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border-radius: 4px;
+    padding: 1px 4px;
+    font-family: var(--font-primary);
+}
+
+/* Upload button */
+.puz-upload-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--gradient-accent);
+    border: none;
+    border-radius: 14px;
+    color: white;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 6px 20px rgba(242, 152, 41, 0.35);
+    letter-spacing: 0.3px;
+}
+
+.puz-upload-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(242, 152, 41, 0.45);
+}
+
+.puz-upload-btn:active {
+    transform: translateY(0);
+}
+
+/* Progress */
+.puz-progress-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) 0;
+}
+
+.puz-progress-bar-track {
+    width: 100%;
+    height: 10px;
+    background: rgba(3, 166, 136, 0.15);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.puz-progress-bar-fill {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.4s ease;
+}
+
+.puz-progress-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Success */
+.puz-success {
+    text-align: center;
+    padding: var(--spacing-md) 0;
+    animation: fadeInUp 0.5s ease-out both;
+}
+
+.puz-success-icon {
+    font-size: 3.5rem;
+    margin-bottom: var(--spacing-sm);
+    animation: bounce-in 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+
+@keyframes bounce-in {
+    0%   { transform: scale(0); opacity: 0; }
+    70%  { transform: scale(1.15); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.puz-success h2 {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: var(--gradient-acc);
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+.puz-success p {
+    color: var(--text-muted);
+    margin-bottom: var(--spacing-md);
+}
+
+.puz-success-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.puz-btn-secondary {
+    padding: 12px 22px;
+    border: 2px solid var(--primary-color);
+    border-radius: 50px;
+    background: transparent;
+    color: var(--primary-color);
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.puz-btn-secondary:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.puz-btn-primary {
+    padding: 12px 22px;
+    border-radius: 50px;
+    background: var(--gradient-accent);
+    color: white;
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 14px rgba(242, 152, 41, 0.3);
+    display: inline-block;
+}
+
+.puz-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(242, 152, 41, 0.4);
+}
+
+/* Error */
+.puz-error {
+    background: rgba(244, 67, 54, 0.08);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+    border-radius: 12px;
+    color: #c62828;
+    padding: var(--spacing-sm);
+    font-size: 0.9rem;
+    text-align: center;
+    line-height: 1.6;
+}
+
+/* Tips row */
+.upload-tips {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.7s ease-out 0.3s both;
+}
+
+.tip-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(8px);
+    border-radius: 50px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    color: var(--text-dark);
+    font-weight: 500;
+    border: 1px solid rgba(3, 166, 136, 0.15);
+}
+
+/* Active nav link */
+nav a.active-nav {
+    color: var(--primary-color);
+    background: rgba(3, 166, 136, 0.1);
+    border-radius: 8px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .upload-card {
+        padding: var(--spacing-sm);
+        border-radius: 18px;
+    }
+
+    .puz-preview-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .puz-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .puz-btn {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+}

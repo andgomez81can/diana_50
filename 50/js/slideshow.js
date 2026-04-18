@@ -48,21 +48,23 @@ class PhotoSlideshow {
 
             if (error) throw error;
 
-            const imageFiles = data.filter(file =>
+            const mediaFiles = data.filter(file =>
                 file.name !== '.emptyFolderPlaceholder' &&
-                /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)
+                /\.(jpg|jpeg|png|gif|webp|mp4|mov|webm|m4v)$/i.test(file.name)
             );
 
-            for (const file of imageFiles) {
+            for (const file of mediaFiles) {
                 const { data: urlData } = supabase
                     .storage
                     .from(STORAGE_BUCKET)
                     .getPublicUrl(file.name);
 
                 if (urlData) {
+                    const isVideo = /\.(mp4|mov|webm|m4v)$/i.test(file.name);
                     this.images.push({
                         url: urlData.publicUrl,
-                        name: file.name
+                        name: file.name,
+                        isVideo
                     });
                 }
             }
@@ -75,18 +77,43 @@ class PhotoSlideshow {
         this.wrapper.innerHTML = '';
         this.indicators.innerHTML = '';
 
-        this.images.forEach((imgData, index) => {
+        this.images.forEach((item, index) => {
             // Slide
             const slide = document.createElement('div');
             slide.className = 'slide' + (index === 0 ? ' active' : '');
 
-            const img = document.createElement('img');
-            img.src = imgData.url;
-            img.alt = `Memory ${index + 1}`;
-            img.loading = index === 0 ? 'eager' : 'lazy';
-            img.onerror = () => { slide.style.display = 'none'; };
+            if (item.isVideo) {
+                const video = document.createElement('video');
+                video.src = item.url;
+                video.muted = true;
+                video.loop = true;
+                video.playsInline = true;
+                video.autoplay = false;
+                video.preload = 'metadata';
+                video.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+                slide.appendChild(video);
+                slide.dataset.isVideo = 'true';
 
-            slide.appendChild(img);
+                // Play video when slide becomes active
+                const obs = new MutationObserver(() => {
+                    if (slide.classList.contains('active')) {
+                        video.play().catch(() => {});
+                    } else {
+                        video.pause();
+                        video.currentTime = 0;
+                    }
+                });
+                obs.observe(slide, { attributes: true, attributeFilter: ['class'] });
+                if (index === 0) video.play().catch(() => {});
+            } else {
+                const img = document.createElement('img');
+                img.src = item.url;
+                img.alt = `Memory ${index + 1}`;
+                img.loading = index === 0 ? 'eager' : 'lazy';
+                img.onerror = () => { slide.style.display = 'none'; };
+                slide.appendChild(img);
+            }
+
             this.wrapper.appendChild(slide);
 
             // Indicator dot
